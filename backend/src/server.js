@@ -1,61 +1,57 @@
 // backend/src/server.js
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
 
 // Import routes
-const authRoutes = require('./routes/authRoutes');
-const noteRoutes = require('./routes/noteRoutes');
-const adminRoutes = require('./routes/adminRoutes');   // ✅ Only once!
+const authRoutes = require("./routes/authRoutes");
+const noteRoutes = require("./routes/noteRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// ==================== MIDDLEWARE ====================
+app.use(
+  cors({
+    origin: "*", // later replace with your frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploaded files
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use('/uploads/notes', express.static(path.join(__dirname, '../uploads')));
+// ==================== UPLOADS FOLDER FIX (Render compatible) ====================
+const uploadDir = path.join(__dirname, "../uploads/notes");
 
-// Debug (optional)
-try {
-    console.log('authRoutes keys:', Object.keys(authRoutes || {}));
-    console.log('noteRoutes keys:', Object.keys(noteRoutes || {}));
-    console.log('adminRoutes keys:', Object.keys(adminRoutes || {}));
-} catch (err) {
-    console.log('Error inspecting routes:', err.message);
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log("📁 Created uploads folder at:", uploadDir);
 }
 
-// Register routes
-app.use('/api/auth', authRoutes);
-app.use('/api/notes', noteRoutes);
-app.use('/api/admin', adminRoutes);   // ✅ Only once, correctly placed
+// Serve uploads
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use("/uploads/notes", express.static(uploadDir));
 
-// Home route
-app.get('/', (req, res) => {
-    res.send('College Notes Exchange API is running!');
+
+// ==================== ROUTES ====================
+app.use("/api/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
+app.use("/api/admin", adminRoutes);
+
+// Health check (Render requires this)
+app.get("/", (req, res) => {
+  res.send("College Notes Exchange API is running 🚀");
 });
 
-// Error Middleware
+// ==================== ERROR HANDLER ====================
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send({ message: 'Something broke!', error: err.message });
+  console.error("❌ ERROR:", err.stack);
+  res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
+// ==================== START SERVER ====================
 const PORT = process.env.PORT || 5000;
-try {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-} catch (err) {
-    console.error('Failed to start server:', err);
-    process.exit(1);
-}
-const cors = require("cors");
-app.use(cors({
-  origin: "*",     // for production replace with frontend domain
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
