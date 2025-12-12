@@ -1,0 +1,116 @@
+.my-notes-page.dashboard-bg {
+  padding: 32px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 50%, #ffffff 100%);
+}
+
+.page-head h2 {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.page-head .muted {
+  color: #64748b;
+}
+
+/* Grid */
+.my-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+/* Card */
+.my-note-card {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  animation: fadeIn 0.4s ease;
+  transition: .25s;
+}
+
+.my-note-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Top Section */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-title {
+  color: #1e3a8a;
+  margin: 0;
+}
+
+/* Status */
+.status {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status.approved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status.pending {
+  background: #fff7d6;
+  color: #a16207;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn.outline {
+  background: transparent;
+  color: #1e3a8a;
+  border: 1px solid #1e3a8a;
+  transition: .25s;
+}
+
+.btn.outline:hover {
+  background: #e0e7ff;
+}
+
+.btn.danger {
+  background: #dc2626;
+  color: white;
+  border: none;
+}
+
+.btn.danger:hover {
+  background: #b91c1c;
+}
+
+/* Empty Panel */
+.empty-panel {
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.my-notes-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 40px;
+  background: linear-gradient(to bottom right, #0f172a, #1e293b, #334155) !important;
+  color: #e2e8f0;
+}

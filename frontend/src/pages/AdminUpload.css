@@ -1,0 +1,158 @@
+/************************************
+   ADMIN UPLOAD PAGE (DARK THEME)
+************************************/
+
+.admin-upload-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: var(--dashboard-bg); /* uses global gradient */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/************************************
+   UPLOAD CARD
+************************************/
+.admin-upload-card {
+  width: 100%;
+  max-width: 650px;
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 20px;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  animation: fadeIn 0.5s ease;
+}
+
+.admin-upload-card h2 {
+  font-size: 28px;
+  margin-bottom: 6px;
+  color: #a5b4fc; /* violet header */
+}
+
+.muted {
+  color: #94a3b8;
+  margin-bottom: 25px;
+  display: block;
+}
+
+/************************************
+   INPUT / SELECT / TEXTAREA
+************************************/
+.input,
+.textarea,
+.admin-upload-card select {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 18px;
+  color: white;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.input:focus,
+.textarea:focus,
+.admin-upload-card select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+}
+
+/************************************
+   DROP ZONE
+************************************/
+.drop-zone {
+  width: 100%;
+  background: #1e293b;
+  border: 2px dashed #475569;
+  color: #cbd5e1;
+  padding: 30px;
+  text-align: center;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s ease;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.drop-zone:hover {
+  background: #334155;
+  transform: scale(1.02);
+}
+
+/************************************
+   PDF PREVIEW
+************************************/
+.pdf-preview {
+  height: 350px;
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  animation: fadeIn 0.25s ease;
+}
+
+.pdf-preview iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 14px;
+  background: black;
+}
+
+/************************************
+   BUTTON
+************************************/
+.btn.primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #4f46e5;
+  transform: translateY(-3px);
+}
+
+.btn.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/************************************
+   ANIMATIONS
+************************************/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slideUp {
+  animation: slideUp 0.55s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

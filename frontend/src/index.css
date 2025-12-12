@@ -1,0 +1,137 @@
+/* frontend/src/index.css (Additions for Forms) */
+/* Global background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+/* General Form Styling */
+.form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* Soft shadow for depth */
+}
+
+/* Input Group Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Important for padding */
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #007bff; /* Highlight on focus */
+    outline: none;
+}
+
+/* Button Styling */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+    background-color: #a0c9f1;
+    cursor: not-allowed;
+}
+
+/* Link and Message Styling */
+.mt-3 {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.mt-3 a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Ensure the background of the app container is dark for contrast */
+.app-container {
+    background-color: #282c34; /* Dark background */
+    min-height: 100vh;
+}
+.navbar {
+    background-color: #1c1f24; /* Darker navbar */
+}
+
+.content {
+    color: white; /* Default text color in content area */
+}
+:root {
+  --bg-gradient: linear-gradient(to bottom, #eef2ff, #f8fafc);
+  --card-bg: #ffffff;
+  --primary: #2563eb;
+  --danger: #dc2626;
+  --success: #22c55e;
+  --pending: #fbbf24;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: #1e293b;
+}
+/* GLOBAL APP GRADIENT BACKGROUND */
+body {
+  background: linear-gradient(180deg, #eef2ff, #f8fafc, #ffffff);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  padding: 30px;
+  background: transparent !important;
+}

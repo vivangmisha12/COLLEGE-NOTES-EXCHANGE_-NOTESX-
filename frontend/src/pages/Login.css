@@ -1,0 +1,17 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at top, #1e293b, #020617);
+}
+
+.auth-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 32px;
+  width: 380px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
