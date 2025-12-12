@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
- baseURL: "https://college-notes-exchange-notesx.onrender.com/api",
+ baseURL: process.env.VITE_API_BASE_URL,
  withCredentials: false,
 });
 
