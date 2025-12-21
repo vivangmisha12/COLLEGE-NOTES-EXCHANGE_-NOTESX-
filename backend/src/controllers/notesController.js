@@ -1,11 +1,11 @@
-const pool = require('../config/db');
-const path = require('path');
-const fs = require('fs');
+import pool from '../config/db.js';
+import path from 'path';
+import fs from 'fs';
 
 
 
 /* ✅ GET SUBJECTS */
-exports.getSubjects = async (req, res) => {
+export const getSubjects = async (req, res) => {
   try {
     let query, params;
 
@@ -31,7 +31,7 @@ exports.getSubjects = async (req, res) => {
 };
 
 /* ✅ UPLOAD NOTE */
-exports.uploadNote = async (req, res) => {
+export const uploadNote = async (req, res) => {
   try {
     const { title, description, subject_id } = req.body;
     const { user_id, branch, year, semester } = req.user;
@@ -79,7 +79,7 @@ exports.uploadNote = async (req, res) => {
 };
 
 /* ✅ GET NOTES */
-exports.getNotes = async (req, res) => {
+export const getNotes = async (req, res) => {
   const { branch, year } = req.user;
   const { subjectId } = req.query;
 
@@ -106,7 +106,7 @@ exports.getNotes = async (req, res) => {
 };
 
 /* ✅ MY NOTES */
-exports.getMyNotes = async (req, res) => {
+export const getMyNotes = async (req, res) => {
   try {
     if (!req.user || !req.user.user_id) {
       return res.status(401).json({ message: 'Not authorized' });
@@ -135,7 +135,7 @@ exports.getMyNotes = async (req, res) => {
 
 
 /* ✅ RATE NOTE */
-exports.rateNote = async (req, res) => {
+export const rateNote = async (req, res) => {
   const { note_id, rating } = req.body;
   const user_id = req.user.user_id;
 
@@ -170,7 +170,7 @@ exports.rateNote = async (req, res) => {
 
 
 /* ✅ ADMIN APPROVE */
-exports.approveNote = async (req, res) => {
+export const approveNote = async (req, res) => {
   await pool.query(
     'UPDATE notes SET approved=? WHERE note_id=?',
     [req.body.approved, req.params.id]
@@ -179,7 +179,7 @@ exports.approveNote = async (req, res) => {
 };
 
 /* ✅ UPDATE NOTE */
-exports.updateNote = async (req, res) => {
+export const updateNote = async (req, res) => {
   const { title, description } = req.body;
 
   const [result] = await pool.query(
@@ -196,7 +196,7 @@ exports.updateNote = async (req, res) => {
 };
 
 /* ✅ DELETE NOTE */
-exports.deleteNote = async (req, res) => {
+export const deleteNote = async (req, res) => {
   const [rows] = await pool.query(
     `SELECT file_url FROM notes
      WHERE note_id=? AND uploaded_by=?`,
@@ -219,7 +219,7 @@ exports.deleteNote = async (req, res) => {
 };
 
 /* ✅ ADMIN DELETE NOTE */
-exports.deleteNoteAdmin = async (req, res) => {
+export const deleteNoteAdmin = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -252,7 +252,7 @@ exports.deleteNoteAdmin = async (req, res) => {
 };
 
 /* ✅ ADMIN UPLOAD NOTE (auto-approved) */
-exports.uploadNoteAdmin = async (req, res) => {
+export const uploadNoteAdmin = async (req, res) => {
   try {
     const { title, description, subject_id } = req.body;
 

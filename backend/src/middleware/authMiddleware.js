@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const pool = require('../config/db');
+import jwt from 'jsonwebtoken';
+import pool from '../config/db.js';
 
 /* ✅ PROTECT ROUTES */
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     // ✅ Token missing
     if (
@@ -49,7 +49,7 @@ exports.protect = async (req, res, next) => {
 };
 
 /* ✅ ADMIN CHECK */
-exports.admin = (req, res, next) => {
+export const admin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
   } else {

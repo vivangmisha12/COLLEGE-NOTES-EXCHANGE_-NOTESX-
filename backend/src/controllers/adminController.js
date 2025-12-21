@@ -1,7 +1,7 @@
-const pool = require('../config/db');
+import pool from '../config/db.js';
 
 // Get all registered users
-exports.getAllUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const [users] = await pool.query(`
       SELECT user_id, name, email, branch, year, semester, role, created_at
@@ -15,7 +15,7 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch users" });
   }
 };
-exports.getAllNotes = async (req, res) => {
+export const getAllNotes = async (req, res) => {
   try {
     const [notes] = await pool.query(`
       SELECT n.*, 
@@ -34,7 +34,7 @@ exports.getAllNotes = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch notes list" });
   }
 };
-exports.getAllRatings = async (req, res) => {
+export const getAllRatings = async (req, res) => {
   try {
     const [rows] = await pool.query(`
       SELECT 

@@ -1,25 +1,25 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const { protect, admin } = require("../middleware/authMiddleware");
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 // Admin Controller
-const {
+import {
   getAllUsers,
   getAllNotes,
   getAllRatings
-} = require("../controllers/adminController");
+} from "../controllers/adminController.js";
 
 // Notes Controller
-const {
+import {
   approveNote,
   deleteNoteAdmin,
   uploadNoteAdmin,
   getSubjects
-} = require("../controllers/notesController");
+} from "../controllers/notesController.js";
 
 // Multer Middleware
-const upload = require("../utils/fileUpload");
+import upload from "../utils/fileUpload.js";
 
 // ---------------- MIDDLEWARE ----------------
 router.use(protect);
@@ -48,4 +48,4 @@ router.delete("/notes/:id", deleteNoteAdmin);
 // Admin Upload PDF
 router.post("/upload", upload.single("file"), uploadNoteAdmin);
 
-module.exports = router;
+export default router;

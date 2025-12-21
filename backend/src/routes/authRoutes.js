@@ -1,6 +1,6 @@
 // backend/src/routes/authRoutes.js
-const express = require('express');
-const { registerStudent, loginUser } = require('../controllers/authController');
+import express from 'express';
+import { registerStudent, loginUser } from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ try {
 router.post('/register', registerStudent);
 router.post('/login', loginUser);
 
-module.exports = router;
+export default router;

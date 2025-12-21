@@ -1,14 +1,19 @@
 // backend/src/server.js
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const fs = require("fs");
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import cors from "cors";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import routes
-const authRoutes = require("./routes/authRoutes");
-const noteRoutes = require("./routes/noteRoutes");
-const adminRoutes = require("./routes/adminRoutes");
+import authRoutes from "./routes/authRoutes.js";
+import noteRoutes from "./routes/noteRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 

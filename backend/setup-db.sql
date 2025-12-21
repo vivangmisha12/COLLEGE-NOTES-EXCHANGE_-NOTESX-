@@ -10,6 +10,7 @@ CREATE TABLE users (
     college VARCHAR(100) NOT NULL,
     branch VARCHAR(50) NOT NULL,
     year INT NOT NULL, -- e.g., 2024 for batch year
+    semester INT NOT NULL, -- Calculated from year (1→1, 2→3, 3→5, 4→7)
     role ENUM('student', 'admin') NOT NULL DEFAULT 'student',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_branch_year (branch, year),
@@ -57,20 +58,11 @@ CREATE TABLE ratings (
 );
 
 -- Initial Admin (Set up a strong password hash manually or through an admin registration)
-INSERT INTO users (name, email, password_hash, college, branch, year, role) 
-VALUES ('System Admin', 'admin@college.edu', '$2b$10$...YOUR_HASH...', 'Admin College', 'ALL', 0, 'admin');
+INSERT INTO users (name, email, password_hash, college, branch, year, semester, role) 
+VALUES ('System Admin', 'admin@college.edu', '$2a$10$tuunR4j9C9QNO4T5HN8gduDUsQeWmEGSQTRxdm4jHPEapYwJbZEGi', 'Admin College', 'ALL', 0, 0, 'admin');
 
 -- Sample Subjects
 INSERT INTO subjects (subject_name, branch, semester) VALUES
 ('Data Structures', 'CS', 3),
 ('Thermodynamics', 'ME', 4),
 ('Signals & Systems', 'EC', 5);
-
-
-
-
-ALTER TABLE ratings 
-ADD UNIQUE KEY unique_rating (note_id, user_id);
-
-
-UPDATE notes SET approved = 1 WHERE uploaded_by =<admin_user_id>;

@@ -1,7 +1,7 @@
 // backend/src/routes/noteRoutes.js
-const express = require('express');
+import express from 'express';
 
-const {
+import {
   uploadNote,
   getNotes,
   getMyNotes,
@@ -10,10 +10,10 @@ const {
   approveNote,
   deleteNote,
   updateNote
-} = require('../controllers/notesController');
+} from '../controllers/notesController.js';
 
-const { protect, admin } = require('../middleware/authMiddleware');
-const upload = require('../utils/fileUpload'); // ✅ multer instance
+import { protect, admin } from '../middleware/authMiddleware.js';
+import upload from '../utils/fileUpload.js'; // ✅ multer instance
 
 const router = express.Router();
 
@@ -48,4 +48,4 @@ router.delete('/:id', deleteNote);
 /* -------------------- ADMIN ONLY -------------------- */
 router.put('/:id/approve', admin, approveNote);
 
-module.exports = router;
+export default router;
