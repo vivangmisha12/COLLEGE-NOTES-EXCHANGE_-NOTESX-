@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import db from "../config/db.js";
+import pool from "../config/db.js";
 
 /* Helper: convert academic year → semester */
 const yearToSemester = (year) => {
@@ -8,7 +8,7 @@ const yearToSemester = (year) => {
   if (![1, 2, 3, 4].includes(yr)) {
     throw new Error("Invalid academic year");
   }
-  return yr * 2 - 1;  // 1→1, 2→3, 3→5, 4→7
+  return yr * 2 - 1; // 1→1, 2→3, 3→5, 4→7
 };
 
 /* ================= REGISTER ================= */
@@ -22,8 +22,8 @@ export const registerStudent = async (req, res) => {
 
     const semester = yearToSemester(year);
 
-    // Check if email exists
-    const [existing] = await db.query(
+    // Check if email already exists
+    const [existing] = await pool.query(
       "SELECT user_id FROM users WHERE email = ?",
       [email.toLowerCase()]
     );
@@ -34,9 +34,9 @@ export const registerStudent = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.query(
+    await pool.query(
       `
-      INSERT INTO users 
+      INSERT INTO users
       (name, email, password_hash, college, branch, year, semester)
       VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
@@ -51,13 +51,13 @@ export const registerStudent = async (req, res) => {
       ]
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "User registered successfully",
     });
 
-  } catch (err) {
-    console.error("REGISTER ERROR:", err);
-    res.status(500).json({
+  } catch (error) {
+    console.error("REGISTER ERROR:", error);
+    return res.status(500).json({
       message: "Server error during registration",
     });
   }
@@ -68,8 +68,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // MUST read from `users` table
-    const [users] = await db.query(
+    const [users] = await pool.query(
       "SELECT * FROM users WHERE email = ?",
       [email.toLowerCase()]
     );
@@ -80,7 +79,6 @@ export const loginUser = async (req, res) => {
 
     const user = users[0];
 
-    // Compare hashed passwords
     const isMatch = await bcrypt.compare(password, user.password_hash);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -92,7 +90,7 @@ export const loginUser = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res.json({
+    return res.json({
       message: "Login successful",
       token,
       user: {
@@ -102,12 +100,14 @@ export const loginUser = async (req, res) => {
         role: user.role,
         branch: user.branch,
         year: user.year,
-        college: user.college
+        college: user.college,
       },
     });
 
   } catch (error) {
     console.error("LOGIN ERROR:", error);
-    res.status(500).json({ message: "Server error during login" });
+    return res.status(500).json({
+      message: "Server error during login",
+    });
   }
 };
