@@ -1,0 +1,10 @@
+# Root .gitignore
+node_modules/
+*.log
+.DS_Store
+.env
+.env.local
+dist/
+*.sql
+*.dump
+college_notes.sql
