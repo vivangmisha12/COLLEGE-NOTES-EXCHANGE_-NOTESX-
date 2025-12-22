@@ -96,7 +96,6 @@ export const uploadNote = async (req, res) => {
   }
 };
 
-
 /* ================= GET NOTES ================= */
 export const getNotes = async (req, res) => {
   const { branch, year } = req.user;
@@ -284,6 +283,7 @@ export const uploadNoteAdmin = async (req, res) => {
       {
         folder: "college_notes",
         resource_type: "raw",
+        timeout: 600000, // ✅ 10 minutes (large file safety)
       }
     );
 
