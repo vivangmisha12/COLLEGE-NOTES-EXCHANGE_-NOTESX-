@@ -55,23 +55,14 @@ export const uploadNote = async (req, res) => {
       return res.status(400).json({ message: "Invalid subject" });
     }
 
-    // Upload to Cloudinary
-    const uploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          resource_type: "raw",
-          folder: "college_notes",
-          format: "pdf",
-        },
-        (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-        }
-      ).end(req.file.buffer);
-    });
-
-    const file_url = uploadResult.secure_url;
-    const public_id = uploadResult.public_id;
+    /* 🔥 CLOUDINARY UPLOAD (RENDER SAFE) */
+    const uploadResult = await cloudinary.uploader.upload(
+      `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
+      {
+        folder: "college_notes",
+        resource_type: "raw",
+      }
+    );
 
     const [result] = await pool.query(
       `
@@ -82,8 +73,8 @@ export const uploadNote = async (req, res) => {
       [
         title,
         description || null,
-        file_url,
-        public_id,
+        uploadResult.secure_url,
+        uploadResult.public_id,
         subject_id,
         user_id,
         year,
@@ -93,10 +84,10 @@ export const uploadNote = async (req, res) => {
     res.status(201).json({
       message: "Uploaded successfully (awaiting approval)",
       note_id: result.insertId,
-      file_url,
+      file_url: uploadResult.secure_url,
     });
   } catch (err) {
-    console.error("UPLOAD ERROR:", err);
+    console.error("CLOUDINARY UPLOAD ERROR:", err);
     res.status(500).json({ message: "Upload failed" });
   }
 };
@@ -153,7 +144,7 @@ export const getMyNotes = async (req, res) => {
   }
 };
 
-/* ================= UPDATE NOTE (FIXED & REQUIRED) ================= */
+/* ================= UPDATE NOTE ================= */
 export const updateNote = async (req, res) => {
   try {
     const { title, description } = req.body;
