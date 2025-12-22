@@ -94,7 +94,7 @@ const MyNotes = () => {
 
               <div className="note-subject muted">{note.subject_name}</div>
               <div className="card-actions">
-                <a className="btn outline" href={`http://localhost:5000${note.file_url}`} target="_blank" rel="noreferrer">View</a>
+                <a className="btn outline" href={note.file_url} target="_blank" rel="noreferrer">View</a>
                 <button className="btn danger" onClick={() => onDelete(note.note_id)}>Delete</button>
               </div>
             </div>

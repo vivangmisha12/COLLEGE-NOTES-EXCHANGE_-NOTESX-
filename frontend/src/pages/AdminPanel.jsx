@@ -221,7 +221,7 @@ const AdminPanel = () => {
                   <td>{n.approved ? "✔ Approved" : "⏳ Pending"}</td>
 
                   <td>
-                    <a href={`http://localhost:5000${n.file_url}`} target="_blank">
+                    <a href={n.file_url} target="_blank">
                       View
                     </a>
                   </td>
