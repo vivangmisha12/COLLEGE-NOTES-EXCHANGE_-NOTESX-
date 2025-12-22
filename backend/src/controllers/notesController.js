@@ -37,7 +37,7 @@ export const uploadNote = async (req, res) => {
       return res.status(400).json({ message: "PDF file is required" });
     }
 
-    // Subject validation
+    // Validate subject
     let query, params;
     if (role === "admin") {
       query = `SELECT subject_id FROM subjects WHERE subject_id=?`;
@@ -55,7 +55,7 @@ export const uploadNote = async (req, res) => {
       return res.status(400).json({ message: "Invalid subject" });
     }
 
-    /* 🔥 Upload to Cloudinary */
+    // Upload to Cloudinary
     const uploadResult = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
@@ -113,8 +113,8 @@ export const getNotes = async (req, res) => {
     JOIN subjects s ON n.subject_id=s.subject_id
     JOIN users u ON u.user_id=n.uploaded_by
     LEFT JOIN ratings r ON r.note_id=n.note_id
-    WHERE n.approved=1 AND
-    (LOWER(s.branch)=LOWER(?) AND n.batch_year=? OR u.role='admin')
+    WHERE n.approved=1
+      AND (LOWER(s.branch)=LOWER(?) AND n.batch_year=? OR u.role='admin')
   `;
 
   const params = [branch, year];
@@ -150,6 +150,33 @@ export const getMyNotes = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to fetch your notes" });
+  }
+};
+
+/* ================= UPDATE NOTE (FIXED & REQUIRED) ================= */
+export const updateNote = async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const user_id = req.user.user_id;
+    const note_id = req.params.id;
+
+    const [result] = await pool.query(
+      `
+      UPDATE notes
+      SET title=?, description=?
+      WHERE note_id=? AND uploaded_by=?
+      `,
+      [title, description || null, note_id, user_id]
+    );
+
+    if (!result.affectedRows) {
+      return res.status(403).json({ message: "Not authorized or note not found" });
+    }
+
+    res.json({ message: "Note updated successfully" });
+  } catch (err) {
+    console.error("UPDATE NOTE ERROR:", err);
+    res.status(500).json({ message: "Failed to update note" });
   }
 };
 
