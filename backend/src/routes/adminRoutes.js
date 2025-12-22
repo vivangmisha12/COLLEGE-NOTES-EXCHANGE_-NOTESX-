@@ -45,7 +45,5 @@ router.put("/notes/:id/approve", approveNote);
 // Delete note
 router.delete("/notes/:id", deleteNoteAdmin);
 
-// Admin Upload PDF
-router.post("/upload", upload.single("file"), uploadNoteAdmin);
 
 export default router;
