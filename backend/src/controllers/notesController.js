@@ -37,7 +37,7 @@ export const uploadNote = async (req, res) => {
       return res.status(400).json({ message: "PDF file is required" });
     }
 
-    // Validate subject
+    // ✅ Validate subject
     let query, params;
     if (role === "admin") {
       query = `SELECT subject_id FROM subjects WHERE subject_id=?`;
@@ -55,16 +55,21 @@ export const uploadNote = async (req, res) => {
       return res.status(400).json({ message: "Invalid subject" });
     }
 
-    /* 🔥 CLOUDINARY UPLOAD (RENDER SAFE) */
+    // 🔥 CLOUDINARY BASE64 UPLOAD (RENDER SAFE)
+    const base64File = req.file.buffer.toString("base64");
+
     const uploadResult = await cloudinary.uploader.upload(
-      `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
+      `data:application/pdf;base64,${base64File}`,
       {
         folder: "college_notes",
         resource_type: "raw",
       }
     );
 
-    const [result] = await pool.query(
+    const file_url = uploadResult.secure_url;
+    const public_id = uploadResult.public_id;
+
+    await pool.query(
       `
       INSERT INTO notes
       (title, description, file_url, cloudinary_id, file_type, subject_id, uploaded_by, batch_year, approved)
@@ -73,8 +78,8 @@ export const uploadNote = async (req, res) => {
       [
         title,
         description || null,
-        uploadResult.secure_url,
-        uploadResult.public_id,
+        file_url,
+        public_id,
         subject_id,
         user_id,
         year,
@@ -83,14 +88,14 @@ export const uploadNote = async (req, res) => {
 
     res.status(201).json({
       message: "Uploaded successfully (awaiting approval)",
-      note_id: result.insertId,
-      file_url: uploadResult.secure_url,
+      file_url,
     });
   } catch (err) {
-    console.error("CLOUDINARY UPLOAD ERROR:", err);
+    console.error("UPLOAD ERROR:", err);
     res.status(500).json({ message: "Upload failed" });
   }
 };
+
 
 /* ================= GET NOTES ================= */
 export const getNotes = async (req, res) => {
