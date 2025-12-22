@@ -2,86 +2,66 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 60px;
-  background: #1e3c72;
+  height: 64px;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
   color: white;
+  border-bottom: 1px solid #1e293b;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
   font-weight: bold;
   font-size: 18px;
+  color: #e5e7eb;
 }
 
 .nav-links {
   display: flex;
-  gap: 18px;
+  gap: 24px;
+  flex: 1;
+  justify-content: center;
 }
 
 .nav-links a {
-  color: #cbd5ff;
+  color: #e5e7eb;
   text-decoration: none;
   font-size: 14px;
-  padding-bottom: 4px;
-  transition: 0.2s;
-}
-
-.nav-links a.active {
-  color: #fff;
-  border-bottom: 2px solid #fff;
+  padding: 8px 0;
+  transition: 0.2s ease;
+  border-bottom: 2px solid transparent;
 }
 
 .nav-links a:hover {
-  color: #fff;
+  color: #38bdf8;
+}
+
+.nav-links a.active {
+  color: #38bdf8;
+  border-bottom: 2px solid #38bdf8;
 }
 
 .nav-right {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
 }
 
 .user-chip {
-  background: rgba(255,255,255,0.2);
-  padding: 6px 10px;
-  border-radius: 14px;
-  font-size: 13px;
-}
-
-.logout-btn {
-  background: #ff4d4f;
-  border: none;
-  color: white;
-  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 13px;
-}
-
-.logout-btn:hover {
-  background: #d9363e;
-}
-.navbar {
-  height: 64px;
-  background: rgba(2, 6, 23, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  border-bottom: 1px solid #1e293b;
-}
-
-.navbar a {
   color: #e5e7eb;
-  margin-right: 16px;
-  text-decoration: none;
-}
-
-.navbar a.active {
-  color: #38bdf8;
 }
 
 .logout-btn {
@@ -89,6 +69,12 @@
   border: none;
   color: white;
   padding: 6px 12px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
 }
