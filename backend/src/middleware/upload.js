@@ -1,20 +1,19 @@
-const multer = require('multer');
-const path = require('path');
+import multer from "multer";
 
-const storage = multer.diskStorage({
-  destination: 'uploads/notes',
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + file.originalname;
-    cb(null, uniqueName);
-  }
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage,
+  limits: {
+    fileSize: 150 * 1024 * 1024, // 150 MB
+  },
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') cb(null, true);
-    else cb(new Error('Only PDF allowed'));
-  }
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed"), false);
+    }
+  },
 });
 
-module.exports = upload;
+export default upload;
