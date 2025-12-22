@@ -253,3 +253,57 @@ export const deleteNoteAdmin = async (req, res) => {
   await pool.query(`DELETE FROM notes WHERE note_id=?`, [id]);
   res.json({ message: "Note deleted by admin" });
 };
+/* ================= ADMIN UPLOAD NOTE ================= */
+export const uploadNoteAdmin = async (req, res) => {
+  try {
+    const { title, description, subject_id } = req.body;
+    const admin_id = req.user.user_id;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "PDF file is required" });
+    }
+
+    // Validate subject
+    const [subjectCheck] = await pool.query(
+      `SELECT subject_id FROM subjects WHERE subject_id=?`,
+      [subject_id]
+    );
+
+    if (!subjectCheck.length) {
+      return res.status(400).json({ message: "Invalid subject" });
+    }
+
+    // 🔥 CLOUDINARY UPLOAD (RENDER SAFE)
+    const uploadResult = await cloudinary.uploader.upload(
+      `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
+      {
+        folder: "college_notes",
+        resource_type: "raw",
+      }
+    );
+
+    await pool.query(
+      `
+      INSERT INTO notes
+      (title, description, file_url, cloudinary_id, file_type, subject_id, uploaded_by, batch_year, approved)
+      VALUES (?, ?, ?, ?, 'pdf', ?, ?, NULL, 1)
+      `,
+      [
+        title,
+        description || null,
+        uploadResult.secure_url,
+        uploadResult.public_id,
+        subject_id,
+        admin_id,
+      ]
+    );
+
+    res.status(201).json({
+      message: "Admin note uploaded & auto-approved",
+      file_url: uploadResult.secure_url,
+    });
+  } catch (err) {
+    console.error("ADMIN UPLOAD ERROR:", err);
+    res.status(500).json({ message: "Admin upload failed" });
+  }
+};
