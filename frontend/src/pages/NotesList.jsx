@@ -214,7 +214,7 @@ const NotesList = () => {
         <div className="modal-bg" onClick={() => setPreviewPDF(null)}>
           <div className="modal">
             <iframe
-              src={`http://localhost:5000${previewPDF}`}
+              src={previewPDF}
               title="PDF Preview"
               className="pdf-frame"
             />

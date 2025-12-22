@@ -282,7 +282,7 @@ export const uploadNoteAdmin = async (req, res) => {
       `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
       {
         folder: "college_notes",
-        resource_type: "raw",
+        resource_type: "auto",
         timeout: 600000, // ✅ 10 minutes (large file safety)
       }
     );
