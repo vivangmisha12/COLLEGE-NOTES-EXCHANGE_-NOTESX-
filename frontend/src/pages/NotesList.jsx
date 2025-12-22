@@ -214,7 +214,7 @@ const NotesList = () => {
         <div className="modal-bg" onClick={() => setPreviewPDF(null)}>
           <div className="modal">
             <iframe
-              src={previewPDF}
+              src={`https://docs.google.com/gvjs?url=${encodeURIComponent(previewPDF)}`}
               title="PDF Preview"
               className="pdf-frame"
             />
