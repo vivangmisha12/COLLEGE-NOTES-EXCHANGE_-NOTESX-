@@ -34,11 +34,15 @@ const corsOptions = {
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  maxAge: 3600
 };
 
 app.use(cors(corsOptions));
+
+// ✅ Handle preflight requests explicitly
+app.options('*', cors(corsOptions));
 
 app.use(express.json({ limit: "200mb" }));
 app.use(express.urlencoded({ extended: true, limit: "200mb" }));
