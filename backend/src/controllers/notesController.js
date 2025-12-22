@@ -91,8 +91,26 @@ export const uploadNote = async (req, res) => {
       file_url,
     });
   } catch (err) {
-    console.error("UPLOAD ERROR:", err);
-    res.status(500).json({ message: "Upload failed" });
+    console.error("UPLOAD ERROR:", err.message, err);
+    
+    // Cloudinary configuration error
+    if (err.message && err.message.includes("Authentication")) {
+      return res.status(500).json({ 
+        message: "Cloudinary not configured properly. Check API credentials." 
+      });
+    }
+    
+    // File size error
+    if (err.message && err.message.includes("file size")) {
+      return res.status(413).json({ 
+        message: "File size exceeds 200MB limit" 
+      });
+    }
+    
+    res.status(500).json({ 
+      message: "Upload failed", 
+      error: err.message 
+    });
   }
 };
 

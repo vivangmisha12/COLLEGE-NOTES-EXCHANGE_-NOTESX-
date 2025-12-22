@@ -9,7 +9,7 @@ import multer from "multer";
 const upload = multer({
   storage: multer.memoryStorage(), // 🔥 REQUIRED FOR CLOUDINARY
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10 MB
+    fileSize: 200 * 1024 * 1024, // 200 MB
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype === "application/pdf") {
