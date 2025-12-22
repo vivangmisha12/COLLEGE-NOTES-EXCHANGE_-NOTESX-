@@ -18,12 +18,27 @@ import adminRoutes from "./routes/adminRoutes.js";
 const app = express();
 
 // ==================== MIDDLEWARE ====================
-app.use(
-  cors({
-    origin: "*", // later replace with your frontend domain
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://collegenotesexchange.netlify.app",
+      "https://college-notes-exchange-notesx-2.onrender.com"
+    ];
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: "200mb" }));
 app.use(express.urlencoded({ extended: true, limit: "200mb" }));
