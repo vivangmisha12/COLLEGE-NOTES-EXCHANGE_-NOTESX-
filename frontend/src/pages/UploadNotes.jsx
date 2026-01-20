@@ -25,7 +25,9 @@ const UploadNotes = () => {
   const handleFile = (f) => {
     if (!f) return;
     if (f.type !== "application/pdf") return showToast("Only PDF allowed", "err");
-
+    
+    // Clean up the previous URL if it exists to save memory
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setFile(f);
     setPreviewUrl(URL.createObjectURL(f));
     showToast("PDF selected", "ok");

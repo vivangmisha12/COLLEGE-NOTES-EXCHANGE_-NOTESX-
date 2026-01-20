@@ -59,10 +59,14 @@ export const uploadNote = async (req, res) => {
     const base64File = req.file.buffer.toString("base64");
 
     const uploadResult = await cloudinary.uploader.upload(
-      `data:application/pdf;base64,${base64File}`,
+      `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
       {
         folder: "college_notes",
         resource_type: "raw",
+        format: "pdf",
+
+        // 🔥 VERY IMPORTANT
+        flags: "attachment:false",
       }
     );
 
@@ -300,7 +304,8 @@ export const uploadNoteAdmin = async (req, res) => {
       `data:application/pdf;base64,${req.file.buffer.toString("base64")}`,
       {
         folder: "college_notes",
-        resource_type: "auto",
+        resource_type: "raw",
+        format: "pdf",
         timeout: 600000, // ✅ 10 minutes (large file safety)
       }
     );
