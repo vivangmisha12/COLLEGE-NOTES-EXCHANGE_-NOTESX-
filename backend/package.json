@@ -1,6 +1,7 @@
 {
   "name": "college-notes-exchange-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Backend for College Notes Exchange",
   "main": "src/server.js",
   "scripts": {
